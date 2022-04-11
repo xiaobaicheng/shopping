@@ -6,7 +6,17 @@
 			
 			}
 		}
-	    ,{
+	    ,
+		{
+			"path":"pages/shop/Contactus"
+		},
+		{
+			"path":"pages/shop/community"
+		},
+		{
+			"path":"pages/shop/video"
+		},
+		{
             "path" : "pages/cart/cart",
             "style" :                                                                                    
             {
@@ -26,6 +36,24 @@
         }
         ,{
             "path" : "pages/news/news",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/shop/shop",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "component/ShopList/ShopList",
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",

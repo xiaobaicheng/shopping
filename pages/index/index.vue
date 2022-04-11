@@ -8,108 +8,87 @@
 				</swiper-item>
 			</swiper>
 		</view>
-		<view class="naw">
-			<view class="view-one">
-				<view class="iconfont icon-ziyuan"></view>
-				<text>商城</text>
-			</view>
-			<view class="view-one">
-				<view class="iconfont icon-guanyuwomen"></view>
-				<text>联系我们</text>
-			</view>
-			<view class="view-one">
-				<view class="iconfont icon-tupian"></view>
-				<text>社区图片</text>
-			</view>
-			<view class="view-one">
-				<view class="iconfont icon-shipin"></view>
-				<text>学习视频</text>
+		<view class="naw"  >
+			<view class="view-one" v-for="(item,index) in naw" :key="index">
+				<view :class="item.icon" @click="path(item.path)"></view>
+				<text>{{item.title}}</text>
 			</view>
 		</view>
 		<!-- 推荐商品 -->
 		<view class="recommend">
 			推荐商品
 		</view>
-		<view class="recommend-box">
-			<view class="one-box">
-				<view class="img-box">
-					<image
-						src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/d764150a470174741d8b0b04515f7a78.jpg?thumb=1&w=350&h=350&f=webp&q=90"
-						mode=""></image>
-				</view>
-				<view class="phonename">
-					<text>Redmi 10A</text>
-					<text class="desc">大电池，大音量，大屏幕</text>
-				</view>
-				<view class="picre">
-					<text class="picre-one">649元起</text>
-					<text class="del">699元</text>
-				</view>
-			</view>
-			<view class="one-box">
-				<view class="img-box">
-					<image
-						src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/d764150a470174741d8b0b04515f7a78.jpg?thumb=1&w=350&h=350&f=webp&q=90"
-						mode=""></image>
-				</view>
-				<view class="phonename">
-					<text>Redmi 10A</text>
-					<text class="desc">大电池，大音量，大屏幕</text>
-				</view>
-				<view class="picre">
-					<text class="picre-one">649元起</text>
-					<text class="del">699元</text>
-				</view>
-			</view>
-			<view class="one-box">
-				<view class="img-box">
-					<image
-						src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/d764150a470174741d8b0b04515f7a78.jpg?thumb=1&w=350&h=350&f=webp&q=90"
-						mode=""></image>
-				</view>
-				<view class="phonename">
-					<text>Redmi 10A</text>
-					<text class="desc">大电池，大音量，大屏幕</text>
-				</view>
-				<view class="picre">
-					<text class="picre-one">649元起</text>
-					<text class="del">699元</text>
-				</view>
-			</view>
-			<view class="one-box">
-				<view class="img-box">
-					<image
-						src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/d764150a470174741d8b0b04515f7a78.jpg?thumb=1&w=350&h=350&f=webp&q=90"
-						mode=""></image>
-				</view>
-				<view class="phonename">
-					<text>Redmi 10A</text>
-					<text class="desc">大电池，大音量，大屏幕</text>
-				</view>
-				<view class="picre">
-					<text class="picre-one">649元起</text>
-					<text class="del">699元</text>
-				</view>
-			</view>
-		</view>
+		<ShopList></ShopList>
 	</view>
 </template>
 
 <script>
-	export default {
+	import ShopList from "../../component/ShopList/ShopList"
+ 	export default {
+		name:"index",
+		components:{ShopList},
 		data() {
 			return {
-				title: 'Hello',
+				title: 'Hello',																											
 				swiper: [],
 				arr: [],
 				newArr: [],
-				sasa: ''
+				sasa: '',
+				naw:[
+					{
+						icon:"iconfont icon-ziyuan",
+						title:"商城",
+						path:"/pages/shop/shop"
+					},
+					{
+						icon:"iconfont icon-guanyuwomen",
+						title:"联系我们",
+						path:"/pages/shop/Contactus"
+					},
+					{
+						icon:"iconfont icon-tupian",
+						title:"社区图片",
+						path:"/pages/shop/community"
+					},
+					{
+						icon:"iconfont icon-shipin",
+						title:"学习视频",
+						path:"/pages/shop/video"
+					}
+				]
 			}
 		},
 		onLoad() {
 			this.getSwiper()
+			this.getremmend()
+			this.getdada()
 		},
 		methods: {
+			path(url){
+				uni.navigateTo({
+					url
+				})
+			},
+			//获取推荐商品
+			async getremmend() {
+				let res = await this.$myRuquest({
+					url: "/goods/detail",
+				})
+				// console.log(res);
+			},
+			getdada() {
+				uni.request({
+					url: 'http://api-hmugo-web.itheima.net/api/public/v1/home/floordata',
+					method: 'GET',
+					data: {},
+					success: res => {
+						// console.log(res);
+					},
+					fail: (error) => {
+						console.log(error);
+					},
+				});
+			},
 			async getSwiper() {
 				const res = await this.$myRuquest({
 					url: "/home/swiperdata"
@@ -122,7 +101,8 @@
 					item.image_src = this.sasa
 				})
 			}
-		}
+		},
+	
 	}
 </script>
 <style lang="less" scoped>
@@ -171,62 +151,5 @@
 		letter-spacing: 10rpx;
 	}
 
-	.recommend-box {
-		margin-top: 40rpx;
-		width: 90%;
-		margin-left: 5%;
-		margin-right: 5%;
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: space-between;
-
-		.one-box {
-			transition: all .2s linear;
-			width: 48%;
-			text-align: center;
-			margin-top: 20rpx;
-			box-shadow: 0 0 8px #808080;
-			overflow: hidden;
-			&:hover{
-				transform: translateY(-10px);
-				transition: 2s;
-			}
-
-			.picre {
-				.picre-one {
-					color: #ff6700;
-				}
-
-				.del {
-					margin-left: .5em;
-					color: #b0b0b0;
-				}
-			}
-
-			.phonename {
-				margin-top: -20rpx;
-				display: flex;
-				flex-direction: column;
-				font-size: 14px;
-				font-weight: 400;
-				color: #333;
-
-				.desc {
-					font-size: 12px;
-					color: #b0b0b0;
-				}
-			}
-
-			.img-box {
-				height: 480rpx;
-				width: 280rpx;
-				margin-left: 10%;
-
-				image {
-					height: 100%;
-					width: 100%;
-				}
-			}
-		}
-	}
+	
 </style>

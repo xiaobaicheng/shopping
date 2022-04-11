@@ -6,7 +6,7 @@ export const myRequest = (options)=>{
 			method: options.method || 'GET',
 			data: options.data || {},
 			success: (res)=>{
-				if(res.data.meta.status !== 200) {
+				if(!res.data.meta.status) {
 					return uni.showToast({
 						title: '获取数据失败'
 					})
